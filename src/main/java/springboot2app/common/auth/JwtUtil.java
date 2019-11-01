@@ -1,6 +1,5 @@
 package springboot2app.common.auth;
 
-import springboot2app.model.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,6 +7,7 @@ import io.jsonwebtoken.impl.DefaultClock;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import springboot2app.entity.User;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -75,11 +75,11 @@ public class JwtUtil implements Serializable {
         return false;
     }
 
-    public String generateToken(UserEntity userEntity) {
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("uid", userEntity.getId());
-        claims.put("rid", userEntity.getRoleId());
-        return doGenerateToken(claims, userEntity.getMobile());
+        claims.put("uid", user.getId());
+        claims.put("rid", user.getRoleId());
+        return doGenerateToken(claims, user.getMobile());
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subjectEmail) {

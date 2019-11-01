@@ -1,4 +1,4 @@
-package springboot2app.model;
+package springboot2app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,9 +13,9 @@ import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "users", indexes = {@Index(name = "unique_mobile", columnList = "mobile", unique = true), @Index(name = "idx_role_id", columnList = "roleId", unique = false)})
+@Table(indexes = {@Index(name = "unique_mobile", columnList = "mobile", unique = true), @Index(name = "idx_role_id", columnList = "roleId", unique = false)})
 @EntityListeners(AuditingEntityListener.class)
-public class UserEntity extends BaseEntity {
+public class User extends BaseEntity {
 
     @Size(min = 2, max = 20)
     @Column(columnDefinition = "varchar(20) default '' COMMENT '姓名'")

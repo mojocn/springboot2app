@@ -1,11 +1,5 @@
 package springboot2app.service.impl;
 
-import springboot2app.common.auth.JwtUtil;
-import springboot2app.common.auth.MyUserDetails;
-import springboot2app.common.util.Result;
-import springboot2app.model.UserEntity;
-import springboot2app.repository.UserRepository;
-import springboot2app.service.AuthService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +7,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import springboot2app.common.auth.JwtUtil;
+import springboot2app.common.auth.MyUserDetails;
+import springboot2app.common.util.Result;
+import springboot2app.entity.User;
+import springboot2app.repository.UserRepository;
+import springboot2app.service.AuthService;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -38,8 +38,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserEntity register(UserEntity userEntityToAdd) {
-        return userRepository.save(userEntityToAdd);
+    public User register(User userToAdd) {
+        return userRepository.save(userToAdd);
     }
 
     @Override
@@ -51,10 +51,10 @@ public class AuthServiceImpl implements AuthService {
 
         // 如果认证通过，返回jwt
         final MyUserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
-        UserEntity userEntity = userDetails.getUserEntity();
-        final String token = jwtUtil.generateToken(userEntity);
+        User user = userDetails.getUser();
+        final String token = jwtUtil.generateToken(user);
         Result res = Result.of("token", token);
-        res.putData("user", userEntity);
+        res.putData("user", user);
         return res;
     }
 

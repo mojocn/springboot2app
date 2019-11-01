@@ -1,9 +1,9 @@
 package springboot2app.common.auth;
 
-import springboot2app.model.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import springboot2app.entity.User;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,10 +14,10 @@ public class MyUserDetails implements UserDetails {
     private static final long serialVersionUID = -2336372258701871345L;
 
     //用户实体类
-    private UserEntity userEntity;
+    private User user;
 
-    public MyUserDetails(UserEntity userEntity) {
-        this.userEntity = userEntity;
+    public MyUserDetails(User user) {
+        this.user = user;
     }
 
     // 提供权限信息
@@ -31,13 +31,13 @@ public class MyUserDetails implements UserDetails {
     // 提供账号名称
     @Override
     public String getUsername() {
-        return getUserEntity().getMobile();
+        return getUser().getMobile();
     }
 
     // 提供密码
     @Override
     public String getPassword() {
-        return getUserEntity().getPassword();
+        return getUser().getPassword();
     }
 
     // 账号是否没过期，过期的用户无法认证
@@ -64,8 +64,8 @@ public class MyUserDetails implements UserDetails {
         return true;
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
+    public User getUser() {
+        return user;
     }
 
 }

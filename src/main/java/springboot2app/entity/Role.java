@@ -1,4 +1,4 @@
-package springboot2app.model;
+package springboot2app.entity;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "roles", indexes = {@Index(name = "unique_name", columnList = "name", unique = true)})
+@Table(indexes = {@Index(name = "unique_name", columnList = "name", unique = true)})
 @EntityListeners(AuditingEntityListener.class)
-public class RoleEntity extends BaseEntity {
+public class Role extends BaseEntity {
 
     @Size(min = 2, max = 20)
     @NotNull(message = "角色名称必须")

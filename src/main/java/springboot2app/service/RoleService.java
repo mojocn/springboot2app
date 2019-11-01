@@ -1,12 +1,12 @@
 package springboot2app.service;
 
-import springboot2app.common.util.MenuItem;
-import springboot2app.common.util.MenuListener;
-import springboot2app.model.RoleEntity;
-import springboot2app.repository.RoleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import springboot2app.common.util.MenuItem;
+import springboot2app.common.util.MenuListener;
+import springboot2app.entity.Role;
+import springboot2app.repository.RoleRepository;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Page<RoleEntity> findAll(Pageable var1) {
+    public Page<Role> findAll(Pageable var1) {
         return roleRepository.findAll(var1);
     }
 
@@ -34,10 +34,10 @@ public class RoleService {
         roleRepository.deleteById(id);
     }
 
-    public RoleEntity update(RoleEntity role) {
-        Optional<RoleEntity> re = roleRepository.findById(role.getId());
+    public Role update(Role role) {
+        Optional<Role> re = roleRepository.findById(role.getId());
         if (re.isPresent()) {
-            RoleEntity roleIns = re.get();
+            Role roleIns = re.get();
             roleIns.setName(role.getName());
             roleIns.setPermission(role.getPermission());
             return roleRepository.save(roleIns);
@@ -45,12 +45,12 @@ public class RoleService {
         return null;
     }
 
-    public RoleEntity create(RoleEntity role) {
+    public Role create(Role role) {
         return roleRepository.save(role);
     }
 
-    public RoleEntity createInitRow() {
-        Optional<RoleEntity> someRole = roleRepository.findByName("超级管理员");
+    public Role createInitRow() {
+        Optional<Role> someRole = roleRepository.findByName("超级管理员");
         if (someRole.isPresent()) {
             return someRole.get();
         }
@@ -58,13 +58,13 @@ public class RoleService {
         menuListener.rows.forEach(e -> {
             permissions.add(e.getPath());
         });
-        RoleEntity roleIns = new RoleEntity();
+        Role roleIns = new Role();
         roleIns.setPermission(String.join(",", permissions));
         roleIns.setName("超级管理员");
         return roleRepository.save(roleIns);
     }
 
-    public RoleEntity findById(Integer id) {
+    public Role findById(Integer id) {
         return roleRepository.findById(id).orElse(null);
     }
 }

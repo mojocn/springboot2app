@@ -1,11 +1,11 @@
 package springboot2app.service.impl;
 
-import springboot2app.common.auth.MyUserDetails;
-import springboot2app.model.UserEntity;
-import springboot2app.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import springboot2app.common.auth.MyUserDetails;
+import springboot2app.entity.User;
+import springboot2app.repository.UserRepository;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -18,10 +18,10 @@ public class MyUserDetailsService implements UserDetailsService {
     // 加载用户信息
     @Override
     public MyUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByMobile(username).get(0);
-        if (userEntity == null) {
+        User user = userRepository.findByMobile(username).get(0);
+        if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new MyUserDetails(userEntity);
+        return new MyUserDetails(user);
     }
 }

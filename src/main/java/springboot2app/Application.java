@@ -6,7 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import springboot2app.model.RoleEntity;
+import springboot2app.entity.Role;
 import springboot2app.service.RoleService;
 import springboot2app.service.UserService;
 
@@ -25,7 +25,7 @@ public class Application {
     public CommandLineRunner firstRows(UserService userService, RoleService roleService) {
         return (args) -> {
             // 创建初始化数据
-            RoleEntity role = roleService.createInitRow();
+            Role role = roleService.createInitRow();
             userService.createGodUser(role);
         };
     }

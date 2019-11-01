@@ -1,8 +1,8 @@
-package springboot2app.model;
+package springboot2app.domain;
 
 import org.springframework.data.annotation.Id;
 
-public class PersonDomain {
+public class Person {
 
     @Id
     private String id;

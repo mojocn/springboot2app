@@ -1,10 +1,10 @@
 package springboot2app.service;
 
 import springboot2app.common.util.Result;
-import springboot2app.model.UserEntity;
+import springboot2app.entity.User;
 
 public interface AuthService {
-    UserEntity register(UserEntity userEntityToAdd);
+    User register(User userToAdd);
 
     Result login(String username, String password);
 

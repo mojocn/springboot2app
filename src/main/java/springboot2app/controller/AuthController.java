@@ -1,13 +1,13 @@
 package springboot2app.controller;
 
-import springboot2app.common.util.Result;
-import springboot2app.model.UserEntity;
-import springboot2app.model.UserRequestLogin;
-import springboot2app.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+import springboot2app.common.util.Result;
+import springboot2app.entity.User;
+import springboot2app.request.UserLogin;
+import springboot2app.service.AuthService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -22,14 +22,14 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Result> register(@Valid @RequestBody UserEntity rUserEntity) throws Exception {
-        UserEntity u = authService.register(rUserEntity);
+    public ResponseEntity<Result> register(@Valid @RequestBody User rUser) throws Exception {
+        User u = authService.register(rUser);
         Result res = Result.of("user", u);
         return ResponseEntity.ok(res);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Result> login(@Valid @RequestBody UserRequestLogin loginRequest) throws AuthenticationException {
+    public ResponseEntity<Result> login(@Valid @RequestBody UserLogin loginRequest) throws AuthenticationException {
         Result res = authService.login(loginRequest.getMobile(), loginRequest.getPassword());
         return ResponseEntity.ok(res);
     }

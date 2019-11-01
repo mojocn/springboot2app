@@ -1,4 +1,4 @@
-package springboot2app.model;
+package springboot2app.entity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

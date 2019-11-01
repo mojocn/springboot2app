@@ -1,15 +1,15 @@
 package springboot2app.common.auth;
 
-import springboot2app.model.RoleEntity;
-import springboot2app.model.UserEntity;
-import springboot2app.service.RoleService;
-import springboot2app.service.UserService;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import springboot2app.entity.Role;
+import springboot2app.entity.User;
+import springboot2app.service.RoleService;
+import springboot2app.service.UserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -53,22 +53,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             Integer roleId = jwtUtil.getClaimFromToken(authToken, "rid", Integer.class);
             // 从jwt中解出账号与角色信息
 
-            UserEntity userEntity = userService.findById(userId);
-            if (userEntity == null) {
+            User user = userService.findById(userId);
+            if (user == null) {
                 throw new ServletException("无效token 找不到对应用户");
             }
-            RoleEntity roleEntity = roleService.findById(roleId);
-            if (roleEntity == null) {
+            Role role = roleService.findById(roleId);
+            if (role == null) {
                 throw new ServletException("无效token 找不到对应角色");
             }
 
-            if (ifHasNoPermission(roleEntity, method, uri)) {
+            if (ifHasNoPermission(role, method, uri)) {
                 throw new ServletException("用户没有权限访问这个接口");
             }
 
             // 如果jwt正确解出账号信息，说明是合法用户，设置认证信息，认证通过
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                MyUserDetails myUserDetails = new MyUserDetails(userEntity);
+                MyUserDetails myUserDetails = new MyUserDetails(user);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                         myUserDetails, null, myUserDetails.getAuthorities());
 
@@ -83,7 +83,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    private boolean ifHasNoPermission(RoleEntity role, String method, String uri) {
+    private boolean ifHasNoPermission(Role role, String method, String uri) {
         if (role.getName().equals("超级管理员")) {
             return false;
         }

@@ -1,10 +1,10 @@
-package springboot2app.model;
+package springboot2app.request;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class UserRequestLogin {
+public class UserLogin {
 
     @NotNull(message = "账号必须填")
     @Pattern(regexp = "^[1][0-9]{10}$", message = "账号请输入11位手机号") // 手机号
