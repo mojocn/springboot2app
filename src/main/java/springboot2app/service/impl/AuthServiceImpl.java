@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import springboot2app.common.auth.JwtUtil;
@@ -43,14 +44,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Result login(String username, String password) {
+    public Result login(String username, String password) throws AuthenticationException {
         // 认证用户，认证失败抛出异常，由JwtAuthError的commence类返回401
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
         final Authentication authentication = authenticationManager.authenticate(upToken);
+        //may throw exception
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         // 如果认证通过，返回jwt
-        final MyUserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
+        final MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
         User user = userDetails.getUser();
         final String token = jwtUtil.generateToken(user);
         Result res = Result.of("token", token);
