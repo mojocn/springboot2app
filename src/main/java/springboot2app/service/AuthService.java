@@ -1,7 +1,6 @@
 package springboot2app.service;
 
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,19 +19,15 @@ public class AuthService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(AuthService.class);
 
     private AuthenticationManager authenticationManager;
-    private MyUserDetailsService myUserDetailsService;
     private JwtUtil jwtUtil;
     private UserRepository userRepository;
 
 
-    @Autowired
     public AuthService(
             AuthenticationManager authenticationManager,
-            MyUserDetailsService myUserDetailsService,
             UserRepository userRepository,
             JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
-        this.myUserDetailsService = myUserDetailsService;
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
     }
