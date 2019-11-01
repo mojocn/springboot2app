@@ -1,4 +1,4 @@
-package springboot2app.service.impl;
+package springboot2app.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

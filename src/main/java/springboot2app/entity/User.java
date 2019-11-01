@@ -29,8 +29,8 @@ public class User extends BaseEntity {
     @NotNull(message = "手机号必须")
     private String mobile;
 
-    @Column(columnDefinition = "integer(11) UNSIGNED default '0' COMMENT '职位: 0-未知职位,1-省厅领导,2-干警'")
-    private JobTitle jobTitle = JobTitle.Unknown;
+    @Column(columnDefinition = "TINYINT UNSIGNED default 0 COMMENT '职位: 0-未知职位,1-省厅领导,2-干警'")
+    private Integer jobTitle = 0;
 
     @Size(min = 6, message = "密码最少6位")
     @Column(columnDefinition = "char(255) default ''")
@@ -73,11 +73,11 @@ public class User extends BaseEntity {
         this.mobile = mobile;
     }
 
-    public JobTitle getJobTitle() {
+    public Integer getJobTitle() {
         return jobTitle;
     }
 
-    public void setJobTitle(JobTitle jobTitle) {
+    public void setJobTitle(Integer jobTitle) {
         this.jobTitle = jobTitle;
     }
 
@@ -104,7 +104,4 @@ public class User extends BaseEntity {
         this.password = new BCryptPasswordEncoder().encode(password);
     }
 
-    public enum JobTitle {
-        Unknown, ProvinceOfficer, Police
-    }
 }
